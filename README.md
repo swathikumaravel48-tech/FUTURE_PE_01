@@ -36,4 +36,4 @@ Swathi K
 ![Services Output](services_output.png)
 
 ### CTA Section
-![CTA Output](CTA_output.png)
+![CTA Output](cta_output.png)
