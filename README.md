@@ -37,3 +37,12 @@ Swathi K
 
 ### CTA Section
 ![CTA Output](cta_output.png)
+## 📌 Key Learnings
+
+- Learned how to design structured prompts for real-world use cases
+- Improved AI-generated content through iterative prompting
+- Understood website copywriting and user-focused content
+- Gained hands-on experience in prompt engineering workflows
+
+## 📊 Project Status
+✅ Completed
