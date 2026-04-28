@@ -102,3 +102,64 @@ Your Everyday Escape
 At Brew Haven Café, every detail is intentional — from the aroma of freshly brewed coffee to the calm, unhurried vibe around you.
 
 Come for the coffee. Stay for the experience. Return for the feeling.
+##services page content 
+Our Services at Brew Haven Café
+
+Thoughtfully curated for comfort, connection, and a touch of everyday indulgence in Chennai.
+
+
+---
+
+☕ Coffee, Crafted Your Way
+
+Discover a menu designed to suit every mood and moment:
+
+Espresso Classics – Espresso, Americano, Cappuccino, Latte
+
+Specialty Brews – Signature blends, flavored lattes, seasonal creations
+
+Cold Coffee & Refreshers – Iced lattes, cold brews, chilled delights
+
+Non-Coffee Options – Teas, hot chocolate, and refreshing coolers
+
+
+Every cup is freshly brewed with precision — because great days start with great coffee.
+
+
+---
+
+🥐 Snacks & Desserts
+
+Pair your drink with something irresistible:
+
+Quick Bites – Sandwiches, wraps, and savory snacks
+
+Bakery Fresh – Croissants, muffins, and artisan pastries
+
+Sweet Treats – Cakes, brownies, and dessert specials
+
+
+Perfect for light cravings or a satisfying café break.
+
+
+---
+
+🌿 Your Perfect Café Experience
+
+More than just a café — a space designed around you:
+
+High-Speed Wi-Fi – Stay connected, work seamlessly
+
+Comfortable Seating – Cozy corners, group tables, and solo spots
+
+Modern Ambiance – Warm lighting, minimal design, calming vibes
+
+Work & Chill Friendly – Ideal for study sessions, meetings, or relaxed hangouts
+
+
+
+---
+
+✨ A Space That Fits Your Lifestyle
+
+Whether you're here to focus, socialize, or simply unwind, Brew Haven Café offers an experience that feels easy, comfortable, and effortlessly enjoyable.
