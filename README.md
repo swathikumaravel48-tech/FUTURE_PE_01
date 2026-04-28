@@ -21,3 +21,19 @@ This project focuses on creating website content such as homepage, services page
 
 ## Author
 Swathi K
+## 📸 Screenshots
+
+### Homepage Prompt
+![Homepage Prompt](homepage_prompt.png)
+
+### Homepage Output
+![Homepage Output](homepage_output.png)
+
+### Improved Version
+![Improved Output](improved_output.png)
+
+### Services Page
+![Services Output](services_output.png)
+
+### CTA Section
+![CTA Output](cta_output.png)
