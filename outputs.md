@@ -163,3 +163,19 @@ Work & Chill Friendly – Ideal for study sessions, meetings, or relaxed hangout
 ✨ A Space That Fits Your Lifestyle
 
 Whether you're here to focus, socialize, or simply unwind, Brew Haven Café offers an experience that feels easy, comfortable, and effortlessly enjoyable.
+##CTA section 
+1. Drop by Brew Haven Café and sip your way to a better day ☕
+
+
+2. Craving coffee? Your perfect cup is waiting at Brew Haven Café
+
+
+3. Step in, slow down, and make Brew Haven Café your happy place
+
+
+4. Order now and bring the Brew Haven vibe straight to you
+
+
+5. Good coffee, great moments—start yours today at Brew Haven Café
+
+
