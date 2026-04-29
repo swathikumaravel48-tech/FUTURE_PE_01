@@ -17,3 +17,16 @@ Include:
 Target audience: Students and young professionals
 
 Make it engaging, modern, and suitable for a website homepage.
+
+## Services Page Prompt
+
+Act as a website copywriter.
+
+Create a services section for "Brew Haven Café" in Chennai.
+
+Include:
+- Coffee menu categories
+- Snacks and desserts
+- Special features (WiFi, ambiance, seating)
+
+Make it clean, attractive, and website-ready.
