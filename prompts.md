@@ -1,15 +1,19 @@
+# Prompts Used
+
+## Homepage Prompt
+
 Act as a professional website copywriter.
 
-Create homepage content for a beauty salon in Chennai.
+Create homepage content for a café named "Brew Haven Café" located in Chennai.
 
 Include:
-- Business name
 - Catchy headline
+- Subheading
 - Short introduction
-- Services overview
+- Highlight of offerings (coffee, snacks, ambiance)
 - Unique selling points
-- Friendly tone
+- Friendly and cozy tone
 
-Target audience: Women aged 18–40
+Target audience: Students and young professionals
 
-Make it simple, attractive, and customer-focused.
+Make it engaging, modern, and suitable for a website homepage.
