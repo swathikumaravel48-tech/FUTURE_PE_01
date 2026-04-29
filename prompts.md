@@ -1,52 +1,23 @@
-# Prompts Used
+Act as a professional website copywriter specializing in F&B (food and beverage) brands.
 
----
+Business Details:
+- Name: Brew Haven Café
+- Location: Anna Nagar, Chennai
+- Type: Specialty coffee café with snacks and study-friendly ambiance
+- Target Audience: College students, remote workers, young professionals aged 18–30
+- USP: Cozy corners, strong WiFi, handcrafted coffee, and an aesthetic space to focus or unwind
 
-## 1. Homepage Prompt
+Your Task:
+Write homepage website copy for Brew Haven Café. Include:
+1. A magnetic headline (max 10 words) that creates an emotional pull
+2. A subheadline that expands on the promise (1–2 sentences)
+3. A brand intro paragraph (60–80 words) — warm, story-driven
+4. 3 USP blocks — each with a short title (3–4 words) and a 20-word description
+5. A closing statement (1 sentence) that invites action
 
-Act as a professional website copywriter.
+Tone: Cozy, authentic, modern. Avoid corporate language. Write like a friend who loves coffee.
+Format: Use clear section labels. Keep it website-ready (no filler phrases like "Welcome to our website").
 
-Create homepage content for a café named "Brew Haven Café" located in Chennai.
 
-Include:
-- Catchy headline
-- Subheading
-- Short introduction
-- Highlight of offerings (coffee, snacks, ambiance)
-- Unique selling points
-- Friendly and cozy tone
 
-Target audience: Students and young professionals
 
-Make it engaging, modern, and suitable for a website homepage.
-
----
-
-## 2. Improvement Prompt
-
-Improve the following café homepage content to make it more premium, emotionally engaging, and modern. Add a stronger hook and smoother flow.
-
----
-
-## 3. Services Page Prompt
-
-Act as a professional website copywriter.
-
-Create a services section for "Brew Haven Café" in Chennai.
-
-Include:
-- Coffee menu categories
-- Snacks and desserts
-- Special features (WiFi, ambiance, seating)
-
-Make it clean, attractive, and website-ready.
-
----
-
-## 4. CTA Prompt
-
-Write 5 catchy call-to-action (CTA) lines for a café website.
-
-Encourage customers to visit or order from "Brew Haven Café".
-
-Tone: Friendly, inviting, energetic.
