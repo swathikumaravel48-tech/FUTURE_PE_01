@@ -1,1 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FUTURE_PE_01 — AI Website Copy Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c28;
+    --border: rgba(255,255,255,0.07);
+    --accent: #c8f064;
+    --accent2: #6e7bff;
+    --accent3: #ff6b6b;
+    --accent4: #ffd166;
+    --text: #f0f0f5;
+    --muted: #6b6b80;
+    --card-radius: 16px;
+  }
 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(110,123,255,0.15) 0%, transparent 70%);
+    top: -100px;
+    right: -200px;
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,240,100,0.08) 0%, transparent 70%);
+    bottom: -50px;
+    left: -100px;
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,240,100,0.1);
+    border: 1px solid rgba(200,240,100,0.25);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    width: fit-content;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 8vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 span {
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 40px;
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .meta-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .meta-pill strong { color: var(--text); }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: fadeUp 0.6s 0.5s ease both;
+  }
+
+  .scroll-line {
+    width: 40px;
+    height: 1px;
+    background: var(--muted);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: var(--accent);
+    animation: slide 1.5s infinite;
+  }
+
+  @keyframes slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* SECTION */
+  section {
+    padding: 80px 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 48px;
+    line-height: 1.1;
+  }
+
+  /* OVERVIEW CARDS */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .overview-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 24px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .overview-card:hover {
+    border-color: rgba(200,240,100,0.3);
+    transform: translateY(-2px);
+  }
+
+  .overview-card .icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .overview-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .overview-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* WORKFLOW */
+  .workflow {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 32px 24px;
+    margin-bottom: 16px;
+  }
+
+  .workflow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .workflow-step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .workflow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 40px;
+    width: 2px;
+    height: calc(100% - 8px);
+    background: linear-gradient(to bottom, var(--accent2), transparent);
+  }
+
+  .step-num {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: rgba(110,123,255,0.15);
+    border: 1px solid rgba(110,123,255,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent2);
+    margin-bottom: 24px;
+  }
+
+  .step-content h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    padding-top: 10px;
+  }
+
+  .step-content p {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* BUSINESSES */
+  .biz-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .biz-tab {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .biz-tab.active, .biz-tab:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0a0a0f;
+    font-weight: 600;
+  }
+
+  .biz-panel { display: none; }
+  .biz-panel.active { display: block; }
+
+  .biz-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+  }
+
+  .biz-header {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .biz-header-left h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .biz-header-left p {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .tone-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 100px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tone-cafe { background: rgba(255,209,102,0.15); color: var(--accent4); border: 1px solid rgba(255,209,102,0.25); }
+  .tone-salon { background: rgba(255,107,107,0.12); color: var(--accent3); border: 1px solid rgba(255,107,107,0.25); }
+  .tone-clinic { background: rgba(110,123,255,0.12); color: var(--accent2); border: 1px solid rgba(110,123,255,0.25); }
+  .tone-agency { background: rgba(200,240,100,0.1); color: var(--accent); border: 1px solid rgba(200,240,100,0.25); }
+
+  .copy-section {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .copy-section:last-child { border-bottom: none; }
+
+  .copy-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .copy-block {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+
+  .copy-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .copy-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .headline-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .usp-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .usp-item {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    border-left: 3px solid var(--accent2);
+  }
+
+  .usp-item.cafe { border-color: var(--accent4); }
+  .usp-item.salon { border-color: var(--accent3); }
+  .usp-item.clinic { border-color: var(--accent2); }
+  .usp-item.agency { border-color: var(--accent); }
+
+  .usp-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  .usp-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .cta-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .cta-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cta-table td {
+    padding: 12px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+
+  .cta-table td:first-child { color: var(--muted); }
+  .cta-table td:nth-child(2) { color: var(--text); font-weight: 600; font-family: 'Syne', sans-serif; font-size: 12px; }
+  .cta-table td:nth-child(3) { color: var(--muted); font-size: 12px; font-style: italic; }
+
+  /* TECHNIQUES */
+  .techniques-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .technique-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+    transition: border-color 0.3s;
+  }
+
+  .technique-row:hover {
+    border-color: rgba(200,240,100,0.25);
+  }
+
+  .technique-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .technique-where {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .technique-example {
+    font-size: 12px;
+    color: var(--accent);
+    background: rgba(200,240,100,0.06);
+    border: 1px solid rgba(200,240,100,0.12);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* SUMMARY TABLE */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .summary-table thead {
+    background: var(--surface2);
+  }
+
+  .summary-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .summary-table td {
+    padding: 14px 18px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+
+  .summary-table tr:last-child td { border-bottom: none; }
+  .summary-table td:first-child {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  footer .footer-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0 24px;
+  }
+
+  /* prompt logic box */
+  .prompt-logic {
+    background: rgba(110,123,255,0.06);
+    border: 1px solid rgba(110,123,255,0.18);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: #9aa8ff;
+    line-height: 1.7;
+  }
+
+  .prompt-logic strong {
+    color: var(--accent2);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 600px) {
+    .overview-grid { grid-template-columns: 1fr; }
+    .technique-row { grid-template-columns: 1fr; }
+    .biz-header { flex-direction: column; }
+    .hero h1 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="badge">Future Interns · Prompt Engineering Track · Task 1</div>
+
+  <h1>AI Website Copy<br><span>Generator</span></h1>
+
+  <p class="hero-sub">
+    Generating professional, conversion-focused website copy for 4 local business types using structured prompt engineering — with tone adaptation, iterative refinement, and documented prompt logic.
+  </p>
+
+  <div class="hero-meta">
+    <div class="meta-pill">🛠 <strong>Claude · ChatGPT</strong></div>
+    <div class="meta-pill">📍 <strong>4 Business Types</strong></div>
+    <div class="meta-pill">✍️ <strong>Homepage + Services + CTA</strong></div>
+    <div class="meta-pill">👩‍💻 <strong>Swathi K</strong></div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- OVERVIEW -->
+<section>
+  <div class="section-label reveal">What This Project Covers</div>
+  <div class="section-title reveal">Built for real businesses.<br>Structured for real results.</div>
+
+  <div class="overview-grid">
+    <div class="overview-card reveal">
+      <div class="icon">☕</div>
+      <h3>Brew Haven Café</h3>
+      <p>Warm homepage, services & CTAs for a study-friendly café in Chennai</p>
+    </div>
+    <div class="overview-card reveal">
+      <div class="icon">💇</div>
+      <h3>Glow & Co. Salon</h3>
+      <p>Aspirational, empowering copy for a premium salon in Bengaluru</p>
+    </div>
+    <div class="overview-card reveal">
+      <div class="icon">🏥</div>
+      <h3>CareFirst Clinic</h3>
+      <p>Calm, patient-first language for a family clinic in Hyderabad</p>
+    </div>
+    <div class="overview-card reveal">
+      <div class="icon">🏢</div>
+      <h3>Launchpad Agency</h3>
+      <p>Bold, results-driven B2B copy for a digital agency in Mumbai</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WORKFLOW -->
+<section>
+  <div class="section-label reveal">Process</div>
+  <div class="section-title reveal">How Each Copy Set<br>Was Generated</div>
+
+  <div class="workflow reveal">
+    <div class="workflow-steps">
+      <div class="workflow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Define Business Context</h4>
+          <p>Name, location, target audience, USP, and tone anchors identified for each business type</p>
+        </div>
+      </div>
+      <div class="workflow-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Design Structured Prompt</h4>
+          <p>Role + Context + Output Specification + Tone Anchor + Avoidance Constraints assembled</p>
+        </div>
+      </div>
+      <div class="workflow-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Generate Initial Output</h4>
+          <p>First-pass AI output reviewed for quality, tone accuracy, and section completeness</p>
+        </div>
+      </div>
+      <div class="workflow-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Apply Improvement Prompt</h4>
+          <p>Iterative refinement prompt targeting sensory language, benefit framing, and urgency</p>
+        </div>
+      </div>
+      <div class="workflow-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Document Prompt Logic</h4>
+          <p>Each prompt annotated with reasoning — why each element was included or excluded</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BUSINESS OUTPUTS -->
+<section>
+  <div class="section-label reveal">Generated Copy</div>
+  <div class="section-title reveal">4 Businesses.<br>4 Distinct Voices.</div>
+
+  <div class="biz-tabs reveal">
+    <button class="biz-tab active" onclick="showBiz('cafe', this)">☕ Café</button>
+    <button class="biz-tab" onclick="showBiz('salon', this)">💇 Salon</button>
+    <button class="biz-tab" onclick="showBiz('clinic', this)">🏥 Clinic</button>
+    <button class="biz-tab" onclick="showBiz('agency', this)">🏢 Agency</button>
+  </div>
+
+  <!-- CAFÉ -->
+  <div class="biz-panel active" id="biz-cafe">
+    <div class="biz-card">
+      <div class="biz-header">
+        <div class="biz-header-left">
+          <h2>Brew Haven Café</h2>
+          <p>Anna Nagar, Chennai · Students & Young Professionals</p>
+        </div>
+        <span class="tone-badge tone-cafe">Warm & Cozy</span>
+      </div>
+
+      <div class="copy-section">
+        <div class="copy-section-title">Homepage Copy</div>
+        <div class="copy-block">
+          <div class="copy-label">Headline</div>
+          <div class="headline-text">Where Great Coffee Meets Your Best Work.</div>
+        </div>
+        <div class="copy-block">
+          <div class="copy-label">Subheadline</div>
+          <div class="copy-text">Brew Haven isn't just a café — it's the place where Chennai's thinkers, dreamers, and doers feel completely at home.</div>
+        </div>
+        <div class="copy-block">
+          <div class="copy-label">Brand Intro</div>
+          <div class="copy-text">Walk through our door and something shifts. The rich smell of freshly ground beans, the low hum of soft music, the warm glow of afternoon light through the window — Brew Haven was built to hold all of that, and you too. In the middle of Anna Nagar's rush, we carved out a space that slows time just enough. Come for the coffee. Stay because you finally found your place.</div>
+        </div>
+        <div class="copy-section-title" style="margin-top:20px">USP Blocks</div>
+        <div class="usp-grid">
+          <div class="usp-item cafe">
+            <div class="usp-
